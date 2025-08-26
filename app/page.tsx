@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { CheckCircle, Clock, Users, Calendar, MapPin, Globe, X } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function BursaWebinarLanding() {
   const [showModal, setShowModal] = useState(false)
@@ -17,15 +18,66 @@ export default function BursaWebinarLanding() {
     mobile: "",
     email: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.fullName || !formData.mobile || !formData.email) {
-      alert("Please fill in all required fields")
+      toast({
+        title: "Missing information",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      })
       return
     }
-    window.open("https://rzp.io/rzp/TndqbwNI", "_blank")
-    setShowModal(false)
+    
+    setIsSubmitting(true)
+    
+    try {
+      // First, show a success toast
+      toast({
+        title: "Registration successful!",
+        description: "Redirecting to payment page...",
+        variant: "default",
+      })
+      
+      // Immediately open the payment page to avoid delays
+      const paymentWindow = window.open("https://rzp.io/rzp/TndqbwNI", "_blank")
+      
+      // Close the modal right away
+      setShowModal(false)
+      
+      // If payment window didn't open (was blocked), redirect directly
+      if (!paymentWindow || paymentWindow.closed || typeof paymentWindow.closed === 'undefined') {
+        window.location.href = "https://rzp.io/rzp/TndqbwNI"
+      }
+      
+      // Then submit the form data in the background (non-blocking)
+      fetch('/api/contact-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          mobile: formData.mobile,
+          email: formData.email
+        }),
+      }).catch(error => {
+        console.error('Background form submission error:', error)
+        // We don't show an error toast here since the user is already redirected
+      })
+    } catch (error) {
+      console.error('Error in form submission process:', error)
+      toast({
+        title: "Something went wrong",
+        description: "There was a problem with your registration. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const openRegistrationModal = () => {
@@ -33,7 +85,7 @@ export default function BursaWebinarLanding() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden w-full">
       <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 text-center shadow-lg">
         <p className="text-sm font-bold animate-pulse">
           🔥 <span className="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs">URGENT</span> Almost Full! Only 2
@@ -55,10 +107,10 @@ export default function BursaWebinarLanding() {
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-[1.2rem] md:text-[1.35rem] font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
                 Bursa Trading Academy
               </h1>
-              <p className="text-sm text-gray-600 font-medium">🏆 Malaysia's #1 Trading Education Platform</p>
+              <p className="text-sm text-gray-600 font-medium">#1 Trading Education Platform</p>
             </div>
           </div>
         </div>
@@ -83,11 +135,11 @@ export default function BursaWebinarLanding() {
             only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM49</span>
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 max-w-5xl mx-auto px-2">
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-3" />
               <p className="font-bold text-lg">Date</p>
-              <p className="text-gray-600 font-medium">26th August</p>
+              <p className="text-gray-600 font-medium">31st August</p>
             </div>
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
@@ -106,13 +158,15 @@ export default function BursaWebinarLanding() {
             </div>
           </div>
 
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-12 py-6 text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse"
-            onClick={openRegistrationModal}
-          >
-            🚀 Book My Seat for RM49 Now
-          </Button>
+          <div className="flex justify-center w-full">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse max-w-full"
+              onClick={openRegistrationModal}
+            >
+              🚀 Book My Seat for RM49 Now
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -302,72 +356,6 @@ export default function BursaWebinarLanding() {
         </div>
       </section>
 
-      {/* Why Different Section */}
-      <section className="py-16 px-4 bg-muted">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Make Profits No Matter When And Where!</h2>
-          <p className="text-xl text-muted-foreground mb-12">
-            Work part-time, or full-time, to start a real & profitable trading career
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need to be an expert in trading to start.</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need to trade in English markets only.</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need social media followers to succeed.</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need to know complex technical analysis.</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need to know advanced trading strategies.</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 bg-green-50 border-green-200">
-              <CardContent className="p-0">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                  <p>You don't need a large capital to start trading.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="bg-card p-8 rounded-lg border">
-            <p className="text-xl font-semibold mb-4">All we ask you is to be persistent and patient,</p>
-            <p className="text-lg text-muted-foreground">we will take care of the rest.</p>
-          </div>
-        </div>
-      </section>
-
       {/* Price Section */}
       <section className="py-16 px-4 bg-card">
         <div className="max-w-4xl mx-auto text-center">
@@ -393,42 +381,42 @@ export default function BursaWebinarLanding() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-16 px-3 sm:px-4 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Trained over 1.53 Lakh people with 715+ live sessions
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              Trained over 3000+ peoples with live sessions
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 mb-8">
             {/* Testimonial 1 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-200">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0">
                   A
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">Ahmad Rahman</h4>
-                  <p className="text-sm text-gray-600">5 reviews • MY</p>
+                  <h4 className="font-bold text-base sm:text-lg">Ahmad Rahman</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">5 reviews • MY</p>
                 </div>
               </div>
 
-              <div className="flex gap-1 mb-3">
+              <div className="flex gap-1 mb-2 sm:mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-5 h-5 bg-green-500 rounded-sm flex items-center justify-center">
+                  <div key={i} className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-sm flex items-center justify-center">
                     <span className="text-white text-xs">★</span>
                   </div>
                 ))}
               </div>
 
-              <p className="text-gray-800 mb-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 leading-relaxed">
                 It was great as always learning so many new trading strategies with clarity. I got the 9x value for the
                 price paid. Thanks for delivering such amazing knowledge and energy with your experience. Forever
                 Grateful! 🙏 🔥 ❤️ ✨
               </p>
 
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                 <strong>Date of experience:</strong> June 15, 2024
               </p>
 
@@ -439,31 +427,31 @@ export default function BursaWebinarLanding() {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-200">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0">
                   S
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">Siti Nurhaliza</h4>
-                  <p className="text-sm text-gray-600">1 review • MY</p>
+                  <h4 className="font-bold text-base sm:text-lg">Siti Nurhaliza</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">1 review • MY</p>
                 </div>
               </div>
 
-              <div className="flex gap-1 mb-3">
+              <div className="flex gap-1 mb-2 sm:mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-5 h-5 bg-green-500 rounded-sm flex items-center justify-center">
+                  <div key={i} className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-sm flex items-center justify-center">
                     <span className="text-white text-xs">★</span>
                   </div>
                 ))}
               </div>
 
-              <p className="text-gray-800 mb-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 leading-relaxed">
                 Bursa Trading Academy is a genuine trading education platform with lots of knowledge and energy. I got
                 9x value for the price paid. I am now going to learn their advanced trading program.
               </p>
 
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                 <strong>Date of experience:</strong> May 28, 2024
               </p>
 
@@ -474,19 +462,85 @@ export default function BursaWebinarLanding() {
             </div>
           </div>
 
-          {/* Pagination dots */}
-          <div className="flex justify-center gap-2 mb-8">
-            <div className="w-2 h-2 bg-gray-800 rounded-full"></div>
-            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+          {/* Additional testimonials */}
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 mb-8">
+            {/* Testimonial 3 */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-200">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0">
+                  L
+                </div>
+                <div>
+                  <h4 className="font-bold text-base sm:text-lg">Lee Wei Ling</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">3 reviews • MY</p>
+                </div>
+              </div>
+
+              <div className="flex gap-1 mb-2 sm:mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-sm flex items-center justify-center">
+                    <span className="text-white text-xs">★</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 leading-relaxed">
+                This workshop changed my whole approach to trading! I've tried many courses before but none of them provided such clear, actionable strategies. The 50/200 EMA system alone was worth the price. Now I can confidently make my own trading decisions.
+              </p>
+
+              <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+                <strong>Date of experience:</strong> July 2, 2024
+              </p>
+
+              <div className="flex items-center gap-4 text-sm text-gray-600">
+                <button className="flex items-center gap-1 hover:text-blue-600">👍 Useful</button>
+                <button className="flex items-center gap-1 hover:text-blue-600">📤 Share</button>
+              </div>
+            </div>
+
+            {/* Testimonial 4 */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-200">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0">
+                  R
+                </div>
+                <div>
+                  <h4 className="font-bold text-base sm:text-lg">Raj Kumar</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">7 reviews • MY</p>
+                </div>
+              </div>
+
+              <div className="flex gap-1 mb-2 sm:mb-3">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-sm flex items-center justify-center">
+                    <span className="text-white text-xs">★</span>
+                  </div>
+                ))}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gray-200 rounded-sm flex items-center justify-center">
+                  <span className="text-white text-xs">★</span>
+                </div>
+              </div>
+
+              <p className="text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 leading-relaxed">
+                Great introduction to trading strategies. I was a complete beginner and was able to understand everything. The risk management section was particularly helpful - now I know how to protect my capital while still growing my account steadily.
+              </p>
+
+              <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+                <strong>Date of experience:</strong> April 18, 2024
+              </p>
+
+              <div className="flex items-center gap-4 text-sm text-gray-600">
+                <button className="flex items-center gap-1 hover:text-blue-600">👍 Useful</button>
+                <button className="flex items-center gap-1 hover:text-blue-600">📤 Share</button>
+              </div>
+            </div>
           </div>
 
           {/* CTA Button */}
           <div className="text-center">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-red-500 text-black font-bold px-12 py-4 text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 mb-4"
+              className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-xl rounded-full shadow-lg hover:shadow-xl transition-all duration-300 mb-4 whitespace-normal"
               onClick={openRegistrationModal}
             >
               See More Inside the Workshop
@@ -567,7 +621,7 @@ export default function BursaWebinarLanding() {
 
             <Button
               size="lg"
-              className="bg-yellow-400 hover:bg-yellow-300 text-black px-12 py-4 text-xl font-bold rounded-full"
+              className="shake-button bg-yellow-400 hover:bg-yellow-300 text-black px-12 py-4 text-xl font-bold rounded-full"
               onClick={openRegistrationModal}
             >
               Join Now for RM49!
@@ -643,21 +697,21 @@ export default function BursaWebinarLanding() {
         </div>
       </footer>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-white to-gray-50 border-t-4 border-red-500 shadow-2xl z-50 px-4 py-4">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-red-500 shadow-2xl z-50 px-2 sm:px-4 py-3 sm:py-4 w-full">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-4">
           <div className="text-center md:text-left">
-            <p className="text-red-600 font-black text-xl md:text-2xl">
-              Almost Full <span className="flash-text bg-yellow-300 px-2 py-1 rounded-lg">Only 2 Seats Left</span>
+            <p className="text-red-600 font-black text-lg md:text-2xl flex flex-wrap justify-center md:justify-start items-center gap-2">
+              Almost Full <span className="flash-text bg-yellow-300 px-2 py-1 rounded-lg text-black">Only 2 Seats Left</span>
             </p>
-            <p className="text-sm text-gray-600 italic font-medium">⏰ Registrations End on 30th August</p>
+            <p className="text-sm text-gray-600 italic font-medium"> Registrations End on 30th August</p>
           </div>
 
           <Button
             size="lg"
-            className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 hover:from-yellow-500 hover:via-orange-500 hover:to-red-500 text-black font-black px-8 py-4 rounded-full shadow-2xl hover:shadow-xl transition-all duration-300 border-2 border-yellow-600 shake-button text-lg md:text-xl"
+            className="shake-button bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 md:px-8 md:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-base md:text-xl whitespace-nowrap"
             onClick={openRegistrationModal}
           >
-            <span className="relative z-10">🚀 Join Now for RM49!</span>
+            <span className="relative z-10">Join Now for RM49!</span>
           </Button>
         </div>
       </div>
@@ -694,6 +748,7 @@ export default function BursaWebinarLanding() {
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -709,6 +764,7 @@ export default function BursaWebinarLanding() {
                     onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                     pattern="[0-9]{10}"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -723,19 +779,21 @@ export default function BursaWebinarLanding() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <Button
                   type="submit"
                   className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-red-500 text-black font-black py-4 text-lg rounded-lg mt-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-yellow-600"
+                  disabled={isSubmitting}
                 >
-                  🎯 Register Now
+                  {isSubmitting ? 'Processing...' : '🎯 Register Now'}
                 </Button>
               </form>
 
               <p className="text-center text-xs text-gray-600 mt-4 bg-gray-50 p-2 rounded-lg">
-                <span className="italic">⏰ Registrations End on</span>{" "}
+                <span className="italic"> Registrations End on</span>{" "}
                 <span className="text-red-500 font-bold">30th August</span>
               </p>
             </div>
@@ -771,6 +829,24 @@ export default function BursaWebinarLanding() {
         @media (max-width: 768px) {
           .shake-button {
             animation: shake 2s infinite;
+          }
+          
+          /* Fix for mobile horizontal scrolling */
+          img {
+            max-width: 100%;
+            height: auto;
+          }
+          
+          table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+          }
+          
+          /* Prevent content from overflowing */
+          p, h1, h2, h3, h4, h5, h6, div, span {
+            word-wrap: break-word;
+            max-width: 100%;
           }
         }
       `}</style>
