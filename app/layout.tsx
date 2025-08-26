@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: 'Bursa Trading Academy Webinar',
-  description: 'Master the Markets: Learn proven trading strategies and turn your trading around in 90 minutes. Join our live webinar for only RM49',
+  description: 'Master the Markets: Learn proven trading strategies and turn your trading around in 2 hours. Join our live webinar for only RM49',
   generator: 'https://bursawebinar.online',
   metadataBase: new URL('https://bursawebinar.online'),
   keywords: ['trading', 'bursa', 'webinar', 'trading academy', 'trading strategy', 'malaysia', 'EMA strategy'],
@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     icon: '/favicon.png',
     apple: '/favicon.png',
   },
-  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     title: 'Bursa Trading Academy - Live Trading Masterclass',
@@ -35,10 +34,10 @@ export const metadata: Metadata = {
     url: 'https://bursawebinar.online',
     images: [
       {
-        url: '/logo.png',
-        width: 800,
-        height: 600,
-        alt: 'Bursa Trading Academy Logo',
+        url: '/preview.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Bursa Trading Academy Webinar',
       }
     ],
   },
@@ -46,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Bursa Trading Academy - Live Trading Masterclass',
     description: 'Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM49',
-    images: ['/logo.png'],
+    images: ['/preview.jpeg'],
   },
 }
 
@@ -66,13 +65,6 @@ export default function RootLayout({
         <meta property="og:image:height" content="600" />
         <meta property="og:image:alt" content="Bursa Trading Academy Logo" />
         <meta name="twitter:image" content="/logo.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Bursa Webinar" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="Bursa Webinar" />
-        <link rel="apple-touch-startup-image" href="/apple-splash-640.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} overflow-x-hidden`}>
         {children}

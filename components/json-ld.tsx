@@ -9,14 +9,14 @@ export default function JsonLd() {
     "name": "Bursa Trading Academy Live Webinar",
     "description": "Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM49",
     "startDate": "2025-08-31T11:00+08:00",
-    "endDate": "2025-08-31T12:30+08:00",
+    "endDate": "2025-08-31T13:00+08:00",
     "eventStatus": "https://schema.org/EventScheduled",
     "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
     "location": {
       "@type": "VirtualLocation",
       "url": "https://bursawebinar.online/"
     },
-    "image": "https://bursawebinar.online/logo.png",
+    "image": "https://bursawebinar.online/preview.jpeg",
     "performer": {
       "@type": "Organization",
       "name": "Bursa Trading Academy",

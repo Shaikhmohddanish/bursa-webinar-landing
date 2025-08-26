@@ -11,8 +11,7 @@ import Image from "next/image"
 import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 import JsonLd from "@/components/json-ld"
-import { registerServiceWorker } from "@/lib/register-sw"
-import { PwaInstallPrompt } from "@/components/pwa-install-prompt"
+import { CountdownTimer } from "@/components/countdown-timer"
 
 export default function BursaWebinarLanding() {
   const [showModal, setShowModal] = useState(false)
@@ -23,10 +22,6 @@ export default function BursaWebinarLanding() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
-
-  useEffect(() => {
-    registerServiceWorker();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -97,7 +92,7 @@ export default function BursaWebinarLanding() {
       <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 text-center shadow-lg">
         <p className="text-sm font-bold animate-pulse">
           🔥 <span className="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs">URGENT</span> Almost Full! Only 2
-          Seats Left - Registrations End on 30th August
+          Seats Left - Registrations End in <CountdownTimer textSize="text-xs" textColor="text-white" className="font-extrabold" />
         </p>
       </div>
 
@@ -555,7 +550,7 @@ export default function BursaWebinarLanding() {
             </Button>
 
             <p className="text-sm text-gray-600 italic">
-              <span className="text-red-500 font-bold">Registrations End on 30th August</span>
+              <span className="text-red-500 font-bold">Registrations End in <CountdownTimer /></span>
             </p>
           </div>
         </div>
@@ -624,7 +619,7 @@ export default function BursaWebinarLanding() {
           <div className="mt-12 text-center">
             <div className="mb-6">
               <p className="text-red-400 text-2xl font-bold mb-2">Almost Full Only 2 Seats Left</p>
-              <p className="text-white/80 italic">Registrations End on 30th August</p>
+              <p className="text-white/80 italic">Registrations End in <CountdownTimer textColor="text-yellow-300" textSize="text-lg" className="animate-pulse" /></p>
             </div>
 
             <Button
@@ -711,13 +706,14 @@ export default function BursaWebinarLanding() {
             <p className="text-red-600 font-black text-lg md:text-2xl flex flex-wrap justify-center md:justify-start items-center gap-2">
               Almost Full <span className="flash-text bg-yellow-300 px-2 py-1 rounded-lg text-black">Only 2 Seats Left</span>
             </p>
-            <p className="text-sm text-gray-600 italic font-medium"> Registrations End on 30th August</p>
+            <p className="text-sm text-gray-600 italic font-medium"> Registrations End in <CountdownTimer textSize="text-base" className="animate-pulse" /></p>
           </div>
 
           <Button
             size="lg"
             className="shake-button bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 md:px-8 md:py-4 rounded-full shadow-lg hover:shadow-xl transition-colors duration-300 text-base md:text-xl whitespace-nowrap"
             onClick={openRegistrationModal}
+            style={{ position: 'relative', zIndex: 60 }}
           >
             <span className="relative z-10">Join Now for RM49!</span>
           </Button>
@@ -801,8 +797,8 @@ export default function BursaWebinarLanding() {
               </form>
 
               <p className="text-center text-xs text-gray-600 mt-4 bg-gray-50 p-2 rounded-lg">
-                <span className="italic"> Registrations End on</span>{" "}
-                <span className="text-red-500 font-bold">30th August</span>
+                <span className="italic"> Registrations End in</span>{" "}
+                <span className="text-red-500 font-bold"><CountdownTimer textSize="text-xs" /></span>
               </p>
             </div>
           </div>
@@ -817,8 +813,8 @@ export default function BursaWebinarLanding() {
         
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
-          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-          20%, 40%, 60%, 80% { transform: translateX(5px); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-7px); }
+          20%, 40%, 60%, 80% { transform: translateX(7px); }
         }
         
         .flash-text {
@@ -827,6 +823,9 @@ export default function BursaWebinarLanding() {
         
         .shake-button {
           animation: shake 1.8s ease-in-out infinite;
+          will-change: transform;
+          display: inline-block;
+          transform-origin: center center;
         }
         
         .bg-grid-pattern {
@@ -859,7 +858,6 @@ export default function BursaWebinarLanding() {
           }
         }
       `}</style>
-      <PwaInstallPrompt />
     </div>
   )
 }
