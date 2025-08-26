@@ -9,7 +9,7 @@ interface CountdownTimerProps {
 }
 
 export function CountdownTimer({ className = '', textSize = 'text-sm', textColor = 'text-red-500' }: CountdownTimerProps) {
-  const [minutes, setMinutes] = useState(2);
+  const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
   const [isExpired, setIsExpired] = useState(false);
 
@@ -19,15 +19,15 @@ export function CountdownTimer({ className = '', textSize = 'text-sm', textColor
     let endTime: number;
     
     if (!savedEndTime) {
-      // If no saved time, set a new end time (2 minutes from now)
-      endTime = Date.now() + (2 * 60 * 1000);
+      // If no saved time, set a new end time (10 minutes from now)
+      endTime = Date.now() + (10 * 60 * 1000);
       localStorage.setItem('countdown-end-time', endTime.toString());
     } else {
       endTime = parseInt(savedEndTime);
       
       // If the saved end time is in the past, reset it
       if (endTime < Date.now()) {
-        endTime = Date.now() + (2 * 60 * 1000);
+        endTime = Date.now() + (10 * 60 * 1000);
         localStorage.setItem('countdown-end-time', endTime.toString());
       }
     }
