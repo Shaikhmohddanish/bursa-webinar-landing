@@ -8,8 +8,11 @@ import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { CheckCircle, Clock, Users, Calendar, MapPin, Globe, X } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
+import JsonLd from "@/components/json-ld"
+import { registerServiceWorker } from "@/lib/register-sw"
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt"
 
 export default function BursaWebinarLanding() {
   const [showModal, setShowModal] = useState(false)
@@ -20,6 +23,10 @@ export default function BursaWebinarLanding() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
+
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -86,6 +93,7 @@ export default function BursaWebinarLanding() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden w-full">
+      <JsonLd />
       <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 text-center shadow-lg">
         <p className="text-sm font-bold animate-pulse">
           🔥 <span className="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs">URGENT</span> Almost Full! Only 2
@@ -275,7 +283,7 @@ export default function BursaWebinarLanding() {
               <p className="text-muted-foreground">Students Trained</p>
             </div>
             <div className="text-center">
-              <p className="font-bold text-2xl text-primary">5+ Years</p>
+              <p className="font-bold text-2xl text-primary">12+ Years</p>
               <p className="text-muted-foreground">Trading Experience</p>
             </div>
             <div className="text-center">
@@ -565,7 +573,7 @@ export default function BursaWebinarLanding() {
               </AccordionTrigger>
               <AccordionContent className="bg-white text-black p-6 rounded-b-lg mt-1">
                 If for any reason you are not able to attend the masterclass, drop us an email at
-                "support@bursawebinar.online" up to 15 minutes before the masterclass starts & we will reserve your seat
+                "coach@bursawebinar.online" up to 15 minutes before the masterclass starts & we will reserve your seat
                 for the next masterclass but the reason should be genuine and please note that I can do it only once.
               </AccordionContent>
             </AccordionItem>
@@ -606,7 +614,7 @@ export default function BursaWebinarLanding() {
                 What Should I Do If I Have Any Additional Queries?
               </AccordionTrigger>
               <AccordionContent className="bg-white text-black p-6 rounded-b-lg mt-1">
-                Simply send an email to "support@bursawebinar.online" and you will get the response in the next 24
+                Simply send an email to "coach@bursawebinar.online" and you will get the response in the next 24
                 hours.
               </AccordionContent>
             </AccordionItem>
@@ -850,6 +858,7 @@ export default function BursaWebinarLanding() {
           }
         }
       `}</style>
+      <PwaInstallPrompt />
     </div>
   )
 }
