@@ -716,7 +716,7 @@ export default function BursaWebinarLanding() {
 
           <Button
             size="lg"
-            className="shake-button bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 md:px-8 md:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-base md:text-xl whitespace-nowrap"
+            className="shake-button bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 md:px-8 md:py-4 rounded-full shadow-lg hover:shadow-xl transition-colors duration-300 text-base md:text-xl whitespace-nowrap"
             onClick={openRegistrationModal}
           >
             <span className="relative z-10">Join Now for RM49!</span>
@@ -817,8 +817,8 @@ export default function BursaWebinarLanding() {
         
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
-          10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
-          20%, 40%, 60%, 80% { transform: translateX(3px); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
         
         .flash-text {
@@ -826,7 +826,7 @@ export default function BursaWebinarLanding() {
         }
         
         .shake-button {
-          animation: shake 1.5s infinite;
+          animation: shake 1.8s ease-in-out infinite;
         }
         
         .bg-grid-pattern {
@@ -834,11 +834,7 @@ export default function BursaWebinarLanding() {
           background-size: 20px 20px;
         }
         
-        @media (max-width: 768px) {
-          .shake-button {
-            animation: shake 2s infinite;
-          }
-          
+        @media (max-width: 768px) {          
           /* Fix for mobile horizontal scrolling */
           img {
             max-width: 100%;
