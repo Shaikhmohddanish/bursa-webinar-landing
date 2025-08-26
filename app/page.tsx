@@ -134,7 +134,7 @@ export default function BursaWebinarLanding() {
           <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
             Turn Your Trading Around in{" "}
             <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent animate-pulse">
-              90 Minutes
+              2 Hours
             </span>
           </h1>
 
@@ -152,7 +152,7 @@ export default function BursaWebinarLanding() {
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
               <p className="font-bold text-lg">Time</p>
-              <p className="text-gray-600 font-medium">11:00 AM</p>
+              <p className="text-gray-600 font-medium">11:00 AM - 1:00 PM</p>
             </div>
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <MapPin className="w-8 h-8 text-purple-600 mx-auto mb-3" />
@@ -172,7 +172,7 @@ export default function BursaWebinarLanding() {
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse max-w-full"
               onClick={openRegistrationModal}
             >
-              🚀 Book My Seat for RM49 Now
+              Book My Seat for RM49 Now
             </Button>
           </div>
         </div>
@@ -679,7 +679,7 @@ export default function BursaWebinarLanding() {
                   <span className="font-semibold">Date:</span> 31st August 2025
                 </div>
                 <div>
-                  <span className="font-semibold">Time:</span> 11:00 AM - 12:30 PM (Malaysia Time)
+                  <span className="font-semibold">Time:</span> 11:00 AM - 1:00 PM (Malaysia Time)
                 </div>
                 <div>
                   <span className="font-semibold">Platform:</span> Zoom (details sent after registration)
@@ -706,7 +706,7 @@ export default function BursaWebinarLanding() {
       </footer>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-red-500 shadow-2xl z-50 px-2 sm:px-4 py-3 sm:py-4 w-full">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-4 pb-1">
           <div className="text-center md:text-left">
             <p className="text-red-600 font-black text-lg md:text-2xl flex flex-wrap justify-center md:justify-start items-center gap-2">
               Almost Full <span className="flash-text bg-yellow-300 px-2 py-1 rounded-lg text-black">Only 2 Seats Left</span>
@@ -724,7 +724,7 @@ export default function BursaWebinarLanding() {
         </div>
       </div>
 
-      <div className="h-24 md:h-20"></div>
+      <div className="h-28 md:h-24"></div>
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4 backdrop-blur-sm">
@@ -796,7 +796,7 @@ export default function BursaWebinarLanding() {
                   className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-red-500 text-black font-black py-4 text-lg rounded-lg mt-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-yellow-600"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Processing...' : '🎯 Register Now'}
+                  {isSubmitting ? 'Processing...' : 'Register Now'}
                 </Button>
               </form>
 
@@ -855,6 +855,11 @@ export default function BursaWebinarLanding() {
           p, h1, h2, h3, h4, h5, h6, div, span {
             word-wrap: break-word;
             max-width: 100%;
+          }
+          
+          /* Ensure proper spacing for fixed bottom bar */
+          .fixed.bottom-0 {
+            padding-bottom: env(safe-area-inset-bottom, 10px);
           }
         }
       `}</style>
