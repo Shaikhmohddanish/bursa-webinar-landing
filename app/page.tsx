@@ -758,7 +758,7 @@ export default function BursaWebinarLanding() {
 
                 <div>
                   <label className="block text-sm font-bold mb-2 text-gray-700">
-                    Mobile Number (10 Digits Only) <span className="text-red-500">*</span>
+                    Mobile Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -766,7 +766,6 @@ export default function BursaWebinarLanding() {
                     className="w-full px-3 py-3 border-2 border-blue-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200"
                     value={formData.mobile}
                     onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                    pattern="[0-9]{10}"
                     required
                     disabled={isSubmitting}
                   />
