@@ -135,10 +135,12 @@ export default function AdminPage() {
         setSuccess('Webinar date updated successfully!');
         
         // Clear localStorage cache to ensure the main page gets the new date
-        try {
-          localStorage.removeItem('webinarDateCache');
-        } catch (err) {
-          console.log('Could not clear localStorage cache:', err);
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.removeItem('webinarDateCache');
+          } catch (err) {
+            console.log('Could not clear localStorage cache:', err);
+          }
         }
         
         // Notify user that the changes will be visible immediately
