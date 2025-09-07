@@ -20,62 +20,8 @@ export default function BursaWebinarLanding() {
     mobile: "",
     email: "",
   })
-  const [webinarDate, setWebinarDate] = useState("")
-  const [isDateLoaded, setIsDateLoaded] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
-  
-  // Function to get the upcoming Sunday's date in "14th September" format
-  const getUpcomingSundayDate = () => {
-    const today = new Date()
-    const currentDay = today.getDay() // 0 is Sunday, 1 is Monday, etc.
-    const daysToAdd = currentDay === 0 ? 7 : 7 - currentDay // If today is Sunday, get next Sunday
-    
-    const nextSunday = new Date(today)
-    nextSunday.setDate(today.getDate() + daysToAdd)
-    
-    // Format the date as "14th September"
-    const day = nextSunday.getDate()
-    const month = nextSunday.toLocaleString('en-US', { month: 'long' })
-    
-    // Add the ordinal suffix to the day
-    let suffix = "th"
-    if (day === 1 || day === 21 || day === 31) {
-      suffix = "st"
-    } else if (day === 2 || day === 22) {
-      suffix = "nd"
-    } else if (day === 3 || day === 23) {
-      suffix = "rd"
-    }
-    
-    return `${day}${suffix} ${month}`
-  }
-  
-  // Get default date (upcoming Sunday)
-  const defaultDate = getUpcomingSundayDate()
-  
-  useEffect(() => {
-    const fetchWebinarDate = async () => {
-      try {
-        const response = await fetch('/api/admin/webinar-date')
-        const data = await response.json()
-        if (data.date) {
-          setWebinarDate(data.date)
-        } else {
-          // Fallback if no date is returned
-          setWebinarDate(defaultDate)
-        }
-      } catch (error) {
-        console.error("Failed to fetch webinar date:", error)
-        // Set default date if fetch fails
-        setWebinarDate(defaultDate)
-      } finally {
-        setIsDateLoaded(true)
-      }
-    }
-    
-    fetchWebinarDate()
-  }, [defaultDate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -196,13 +142,7 @@ export default function BursaWebinarLanding() {
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-3" />
               <p className="font-bold text-lg">Date</p>
-              <p className="text-gray-600 font-medium">
-                {!isDateLoaded ? (
-                  <span className="inline-block h-5 w-24 bg-gray-200 animate-pulse rounded"></span>
-                ) : (
-                  webinarDate
-                )}
-              </p>
+              <p className="text-gray-600 font-medium">14th September</p>
             </div>
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
@@ -731,12 +671,7 @@ export default function BursaWebinarLanding() {
 
               <div className="space-y-4">
                 <div>
-                  <span className="font-semibold">Date:</span>{" "}
-                  {!isDateLoaded ? (
-                    <span className="inline-block h-5 w-24 bg-teal-700 animate-pulse rounded"></span>
-                  ) : (
-                    `${webinarDate} 2025`
-                  )}
+                  <span className="font-semibold">Date:</span> 14th September 2025
                 </div>
                 <div>
                   <span className="font-semibold">Time:</span> 11:00 AM - 1:00 PM (Malaysia Time)

@@ -1,0 +1,123 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import type React from "react"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { CheckCircle, Clock, Users, Calendar, MapPin, Globe, X } from "lucide-react"
+import Image from "next/image"
+import CountdownTimer from "@/components/countdown-timer"
+import JsonLd from "@/components/json-ld"
+
+export default function BursaWebinarLanding() {
+  const [webinarDate, setWebinarDate] = useState("14th September");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWebinarDate = async () => {
+      try {
+        const response = await fetch('/api/admin/webinar-date');
+        const data = await response.json();
+        if (data.date) {
+          setWebinarDate(data.date);
+        }
+      } catch (error) {
+        console.error("Failed to fetch webinar date:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWebinarDate();
+  }, []);
+
+  const openRegistrationModal = () => {
+    // Functionality for opening registration modal
+  };
+
+  return (
+    <div className="min-h-screen bg-background overflow-x-hidden w-full">
+      <JsonLd />
+      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 text-center shadow-lg">
+        <p className="text-sm font-bold animate-pulse">
+          🔥 <span className="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs">URGENT</span> Almost Full! Only 2
+          Seats Left - Registrations End in <CountdownTimer textSize="text-xs" textColor="text-white" className="font-extrabold" />
+        </p>
+      </div>
+
+      <header className="py-6 px-4 bg-white border-b-2 border-gray-100 shadow-sm">
+        <div className="max-w-6xl mx-auto flex items-center justify-center">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Image
+                src="/logo.png"
+                alt="Bursa Trading Academy Logo"
+                width={56}
+                height={56}
+                className="rounded-xl shadow-md"
+              />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-[1.2rem] md:text-[1.35rem] font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
+                Bursa Trading Academy
+              </h1>
+              <p className="text-sm text-gray-600 font-medium">#1 Trading Education Platform</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section className="relative bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <Badge className="mb-8 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-3 text-base font-bold shadow-lg hover:shadow-xl transition-all duration-300 animate-bounce">
+            🎯 2 Hours Live Trading Masterclass
+          </Badge>
+
+          <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
+            Turn Your Trading Around in{" "}
+            <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent animate-pulse">
+              2 Hours
+            </span>
+          </h1>
+
+          <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed">
+            Master the Markets: Learn proven trading systems that work – not random signals. Join our live webinar for
+            only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM49</span>
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 max-w-5xl mx-auto px-2">
+            <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+              <p className="font-bold text-lg">Date</p>
+              <p className="text-gray-600 font-medium">{isLoading ? "Loading..." : webinarDate}</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
+              <p className="font-bold text-lg">Time</p>
+              <p className="text-gray-600 font-medium">11:00 AM - 1:00 PM</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <MapPin className="w-8 h-8 text-purple-600 mx-auto mb-3" />
+              <p className="font-bold text-lg">Venue</p>
+              <p className="text-gray-600 font-medium">Zoom</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <Globe className="w-8 h-8 text-orange-600 mx-auto mb-3" />
+              <p className="font-bold text-lg">Language</p>
+              <p className="text-gray-600 font-medium">English</p>
+            </div>
+          </div>
+
+          <div className="flex justify-center w-full">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse max-w-full"
+              onClick={openRegistrationModal}
+            >
+              Book My Seat for RM49 Now
+            </Button>
