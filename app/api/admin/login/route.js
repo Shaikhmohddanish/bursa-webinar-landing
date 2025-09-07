@@ -6,7 +6,7 @@ export async function POST(request) {
     const { username, password } = data;
     
     // Hard-coded credentials as requested
-    if (username === 'admin@bursawebinar.online' && password === 'Asdfghjkl135@') {
+    if (username === 'admin@admin.com' && password === 'Asdfghjkl135@') {
       return NextResponse.json({ success: true });
     } else {
       return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
