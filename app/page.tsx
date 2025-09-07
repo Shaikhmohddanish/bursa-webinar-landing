@@ -142,7 +142,7 @@ export default function BursaWebinarLanding() {
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-3" />
               <p className="font-bold text-lg">Date</p>
-              <p className="text-gray-600 font-medium">7th September</p>
+              <p className="text-gray-600 font-medium">14th September</p>
             </div>
             <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Clock className="w-8 h-8 text-green-600 mx-auto mb-3" />
@@ -671,7 +671,7 @@ export default function BursaWebinarLanding() {
 
               <div className="space-y-4">
                 <div>
-                  <span className="font-semibold">Date:</span> 7th September 2025
+                  <span className="font-semibold">Date:</span> 14th September 2025
                 </div>
                 <div>
                   <span className="font-semibold">Time:</span> 11:00 AM - 1:00 PM (Malaysia Time)
