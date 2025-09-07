@@ -57,10 +57,49 @@ export default function BursaWebinarLanding() {
   useEffect(() => {
     const fetchWebinarDate = async () => {
       try {
+        // Check if we're in the browser environment before using localStorage
+        if (typeof window !== 'undefined') {
+          // Check localStorage first
+          const storedDateData = localStorage.getItem('webinarDateCache')
+          
+          if (storedDateData) {
+            try {
+              const { date, timestamp } = JSON.parse(storedDateData)
+              const currentTime = Date.now()
+              const oneHour = 60 * 60 * 1000 // 1 hour in milliseconds
+              
+              // If the cached data is less than 1 hour old, use it
+              if (currentTime - timestamp < oneHour && date) {
+                setWebinarDate(date)
+                setIsDateLoaded(true)
+                return
+              }
+            } catch (parseError) {
+              console.error("Failed to parse localStorage data:", parseError)
+              // If there's an error parsing the stored data, continue to fetch from API
+            }
+          }
+        }
+        
+        // If no valid cache or we're on server, fetch from API
         const response = await fetch('/api/admin/webinar-date')
         const data = await response.json()
+        
         if (data.date) {
           setWebinarDate(data.date)
+          
+          // Save to localStorage with current timestamp if in browser
+          if (typeof window !== 'undefined') {
+            try {
+              localStorage.setItem('webinarDateCache', JSON.stringify({
+                date: data.date,
+                timestamp: Date.now()
+              }))
+            } catch (storageError) {
+              console.error("Failed to store in localStorage:", storageError)
+              // Continue even if localStorage fails
+            }
+          }
         } else {
           // Fallback if no date is returned
           setWebinarDate(defaultDate)

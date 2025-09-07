@@ -134,9 +134,16 @@ export default function AdminPage() {
         setCurrentDate(newDate);
         setSuccess('Webinar date updated successfully!');
         
-        // Notify user that the changes will be visible on page reload
+        // Clear localStorage cache to ensure the main page gets the new date
+        try {
+          localStorage.removeItem('webinarDateCache');
+        } catch (err) {
+          console.log('Could not clear localStorage cache:', err);
+        }
+        
+        // Notify user that the changes will be visible immediately
         setTimeout(() => {
-          setSuccess('Date updated! Changes will be visible on the main page.');
+          setSuccess('Date updated! Changes will be visible immediately on the main page.');
         }, 2000);
       } else {
         setError(data.message || 'Failed to update date');
