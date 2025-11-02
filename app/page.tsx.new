@@ -87,7 +87,7 @@ export default function BursaWebinarLanding() {
 
           <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed">
             Master the Markets: Learn proven trading systems that work – not random signals. Join our live webinar for
-            only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM49</span>
+            only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM19</span>
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 max-w-5xl mx-auto px-2">
@@ -119,5 +119,5 @@ export default function BursaWebinarLanding() {
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse max-w-full"
               onClick={openRegistrationModal}
             >
-              Book My Seat for RM49 Now
+              Book My Seat for RM19 Now
             </Button>

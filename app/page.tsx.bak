@@ -135,7 +135,7 @@ export default function BursaWebinarLanding() {
 
           <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed">
             Master the Markets: Learn proven trading systems that work – not random signals. Join our live webinar for
-            only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM49</span>
+            only <span className="font-black text-3xl text-red-600 bg-yellow-200 px-2 py-1 rounded-lg">RM19</span>
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 max-w-5xl mx-auto px-2">
@@ -167,7 +167,7 @@ export default function BursaWebinarLanding() {
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 animate-pulse max-w-full"
               onClick={openRegistrationModal}
             >
-              Book My Seat for RM49 Now
+              Book My Seat for RM19 Now
             </Button>
           </div>
         </div>
@@ -365,9 +365,9 @@ export default function BursaWebinarLanding() {
           <h2 className="text-3xl font-bold mb-8">Special Launch Offer</h2>
           <div className="bg-background p-8 rounded-lg border mb-8">
             <p className="text-lg text-muted-foreground mb-4">Complete Trading Masterclass Worth</p>
-            <p className="text-4xl font-bold text-muted-foreground line-through mb-4">RM499</p>
+            <p className="text-4xl font-bold text-muted-foreground line-through mb-4">RM199</p>
             <p className="text-lg text-muted-foreground mb-4">Special Today Only:</p>
-            <p className="text-6xl font-bold text-primary mb-6">RM49</p>
+            <p className="text-6xl font-bold text-primary mb-6">RM19</p>
             <p className="text-sm text-muted-foreground">One-time payment • Lifetime access to recording</p>
           </div>
 
@@ -376,7 +376,7 @@ export default function BursaWebinarLanding() {
             className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-xl font-bold rounded-full mb-4"
             onClick={openRegistrationModal}
           >
-            Reserve My Spot for RM49
+            Reserve My Spot for RM19
           </Button>
 
           <p className="text-sm text-muted-foreground">💳 Secure payment • 💯 Money-back guarantee</p>
@@ -627,7 +627,7 @@ export default function BursaWebinarLanding() {
               className="shake-button bg-yellow-400 hover:bg-yellow-300 text-black px-12 py-4 text-xl font-bold rounded-full"
               onClick={openRegistrationModal}
             >
-              Join Now for RM49!
+              Join Now for RM19!
             </Button>
           </div>
         </div>
@@ -643,7 +643,7 @@ export default function BursaWebinarLanding() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg leading-relaxed">
-                For just RM49, you'll gain access to professional trading strategies that have helped thousands of
+                For just RM19, you'll gain access to professional trading strategies that have helped thousands of
                 Malaysian traders break the cycle of losses and dependency on signals.
               </p>
 
@@ -657,7 +657,7 @@ export default function BursaWebinarLanding() {
                 className="bg-white hover:bg-gray-100 text-purple-800 px-8 py-4 text-lg font-bold rounded-lg"
                 onClick={openRegistrationModal}
               >
-                Yes! I'm In For RM49
+                Yes! I'm In For RM19
               </Button>
             </div>
 
@@ -680,7 +680,7 @@ export default function BursaWebinarLanding() {
                   <span className="font-semibold">Platform:</span> Zoom (details sent after registration)
                 </div>
                 <div>
-                  <span className="font-semibold">Investment:</span> RM49 only
+                  <span className="font-semibold">Investment:</span> RM19 only
                 </div>
               </div>
             </div>
@@ -715,7 +715,7 @@ export default function BursaWebinarLanding() {
             onClick={openRegistrationModal}
             style={{ position: 'relative', zIndex: 60 }}
           >
-            <span className="relative z-10">Join Now for RM49!</span>
+            <span className="relative z-10">Join Now for RM19!</span>
           </Button>
         </div>
       </div>

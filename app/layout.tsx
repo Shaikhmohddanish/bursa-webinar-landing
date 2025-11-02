@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: 'Bursa Trading Academy Webinar',
-  description: 'Master the Markets: Learn proven trading strategies and turn your trading around in 2 hours. Join our live webinar for only RM49',
+  description: 'Master the Markets: Learn proven trading strategies and turn your trading around in 2 hours. Join our live webinar for only RM19',
   generator: 'https://bursawebinar.online',
   metadataBase: new URL('https://bursawebinar.online'),
   keywords: ['trading', 'bursa', 'webinar', 'trading academy', 'trading strategy', 'malaysia', 'EMA strategy'],
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     title: 'Bursa Trading Academy - Live Trading Masterclass',
-    description: 'Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM49',
+    description: 'Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM19',
     siteName: 'Bursa Trading Academy',
     url: 'https://bursawebinar.online',
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Bursa Trading Academy - Live Trading Masterclass',
-    description: 'Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM49',
+    description: 'Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM19',
     images: ['/preview.jpeg'],
   },
 }

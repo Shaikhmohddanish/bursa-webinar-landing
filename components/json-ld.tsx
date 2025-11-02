@@ -7,7 +7,7 @@ export default function JsonLd() {
     "@context": "https://schema.org",
     "@type": "Event",
     "name": "Bursa Trading Academy Live Webinar",
-    "description": "Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM49",
+    "description": "Master the Markets: Learn proven trading strategies that work – not random signals. Join our live webinar for only RM19",
     "startDate": "2025-08-31T11:00+08:00",
     "endDate": "2025-08-31T13:00+08:00",
     "eventStatus": "https://schema.org/EventScheduled",
